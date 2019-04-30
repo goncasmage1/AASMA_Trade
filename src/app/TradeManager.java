@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class TradeManager {
 	
-	public Buyer buyer;
-	public Seller seller;
+	public static Buyer buyer;
+	public static Seller seller;
 	
-	public static TradeManager tradeManager;
+	private static TradeManager tradeManager;
 	
 	public Product[] products = {
 		new Product("Whiskas Saquetas", 5, 0.2f),
@@ -20,15 +20,15 @@ public class TradeManager {
 	public ArrayList<Request> buyerRequests = new ArrayList<Request>();
 	public ArrayList<Request> sellerRequests = new ArrayList<Request>();
 	
-	public TradeManager() {		
-		buyer = new Buyer(0.0f, false);
-		seller = new Seller(0.0f);
-		
-		startTrade();
+	public TradeManager() {
 	}
 	
 	public static TradeManager get() {
-		if (tradeManager == null) return new TradeManager();
+		if (tradeManager == null) {
+			tradeManager = new TradeManager();
+			tradeManager.buyer = new Buyer(0.0f, false);
+			tradeManager.seller = new Seller(0.0f);
+		}
 		return tradeManager;
 	}
 	

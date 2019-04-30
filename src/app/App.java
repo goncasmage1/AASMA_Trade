@@ -3,6 +3,6 @@ package app;
 public class App {
     public static void main(String[] args) throws Exception {
         TradeManager tradeManager = TradeManager.get();
-        
+        tradeManager.startTrade();
     }
 }
