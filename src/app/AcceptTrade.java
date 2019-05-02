@@ -2,8 +2,8 @@ package app;
 
 public class AcceptTrade extends Request {
 	
-	public AcceptTrade(boolean isSeller, String message) {
-		super(isSeller, message);
+	public AcceptTrade(boolean isSeller) {
+		super(0.0f, null, isSeller, "");
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package app;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class TradeManager {
 	
@@ -8,8 +9,10 @@ public class TradeManager {
 	public static Seller seller;
 	
 	private static TradeManager tradeManager;
+
+	public static Random rand = new Random();
 	
-	public Product[] products = {
+	public static Product[] products = {
 		new Product("Whiskas Saquetas", 5, 0.2f),
 		new Product("Ferrari Sabrini", 10000, 0.7f),
 		new Product("Asus Laptop", 800, 0.9f),
@@ -19,15 +22,19 @@ public class TradeManager {
 	public ArrayList<Request> requests = new ArrayList<Request>();
 	public ArrayList<Request> buyerRequests = new ArrayList<Request>();
 	public ArrayList<Request> sellerRequests = new ArrayList<Request>();
+
+	public static int maxRequests = 0;
+	public static int requestCount = 0;
 	
 	public TradeManager() {
+		maxRequests = rand.nextInt((10 - 4) + 1) + 4;
 	}
 	
 	public static TradeManager get() {
 		if (tradeManager == null) {
 			tradeManager = new TradeManager();
-			tradeManager.buyer = new Buyer(0.0f, false);
-			tradeManager.seller = new Seller(0.0f);
+			tradeManager.seller = new Seller(0.0f, 0.0f, 0.0f, false);
+			tradeManager.buyer = new Buyer(0.0f, 0.0f, 0.0f);
 		}
 		return tradeManager;
 	}
@@ -37,17 +44,25 @@ public class TradeManager {
 
 		while(true) {
 			nextRequest = seller.giveResponse(nextRequest);
+			requestCount++;
 			nextRequest.accept(this);
 			
 			if (nextRequest instanceof AcceptTrade ||
-				nextRequest instanceof GiveUpTrade) break;
+				nextRequest instanceof GiveUpTrade ||
+				requestCount >= maxRequests) break;
 			
 			nextRequest = buyer.giveResponse(nextRequest);
+			requestCount++;
 			nextRequest.accept(this);
 			
 			if (nextRequest instanceof AcceptTrade ||
-				nextRequest instanceof GiveUpTrade) break;
+				nextRequest instanceof GiveUpTrade ||
+				requestCount >= maxRequests) break;
 		}
+	}
+
+	public static boolean isLastRequest() {
+		return requestCount >= (maxRequests-1);
 	}
 	
 	public void processRequestAbstract(Request request) {
