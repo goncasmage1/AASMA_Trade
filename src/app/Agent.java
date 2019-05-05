@@ -1,7 +1,5 @@
 package app;
 
-import java.util.ArrayList;
-
 public abstract class Agent {
 	
 	TradeManager manager = TradeManager.get();

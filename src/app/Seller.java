@@ -11,7 +11,7 @@ public class Seller extends Agent {
 
 	@Override
 	public Request giveResponse(Request request) {
-		String[] parameters = parseMessage(request.message);
+		String[] parameters = request != null ? parseMessage(request.message) : new String[0];
 		if (manager.isLastRequest()) {
 			float giveUpProbability = manager.rand.nextFloat();
 			if (giveUpProbability >= 0.5f) return new GiveUpTrade(false);
@@ -26,13 +26,15 @@ public class Seller extends Agent {
 			//Se valor se aproximar ou baixar da margem de lucro, indicar ultima oferta
 			float newValue = createNextOffer(request);
 
+			if (newValue <= request.value) return new AcceptTrade(true);
+
 			return new ProposeOffer(newValue, request.product, true, "");
 		}
 	}
 
 	@Override
 	protected float createNextOffer(Request request) {
-		float lastOfferValue = manager.sellerRequests.get(manager.sellerRequests.size()).value;
+		float lastOfferValue = manager.sellerRequests.get(manager.sellerRequests.size() - 1).value;
 
 		float offerValue = request.value;
 		float newOfferValue = lerp(lastOfferValue, offerValue, 0.2f);

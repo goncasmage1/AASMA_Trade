@@ -23,16 +23,18 @@ public class Buyer extends Agent {
 		//Se valor se aproximar ou baixar da margem de lucro, indicar ultima oferta
 		float newValue = createNextOffer(request);
 
+		if (newValue >= request.value) return new AcceptTrade(false);
+
 		return new ProposeOffer(newValue, request.product, false, "");
 	}
 
 	@Override
 	protected float createNextOffer(Request request) {
 		if (manager.buyerRequests.size() == 0) {
-			return lerp(request.value, request.product.marketValue * request.product.quality, productKnowledge);
+			return lerp(request.value, (request.product.marketValue * request.product.quality / (1.0f + profitMargin)) / (1.0f + offerInflation), productKnowledge);
 		}
 		else {
-			float lastOfferValue = manager.buyerRequests.get(manager.buyerRequests.size()).value;
+			float lastOfferValue = manager.buyerRequests.get(manager.buyerRequests.size() - 1).value;
 
 			float offerValue = request.value;
 			float newOfferValue = lerp(lastOfferValue, offerValue, 0.2f);

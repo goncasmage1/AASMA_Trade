@@ -13,7 +13,6 @@ public class TradeManager {
 	public static Random rand = new Random();
 	
 	public static Product[] products = {
-		new Product("Whiskas Saquetas", 5, 0.2f),
 		new Product("Ferrari Sabrini", 10000, 0.7f),
 		new Product("Asus Laptop", 800, 0.9f),
 		new Product("MAC XPTO", 2000, 0.4f),
@@ -33,8 +32,8 @@ public class TradeManager {
 	public static TradeManager get() {
 		if (tradeManager == null) {
 			tradeManager = new TradeManager();
-			tradeManager.seller = new Seller(0.0f, 0.0f, 0.0f, false);
-			tradeManager.buyer = new Buyer(0.0f, 0.0f, 0.0f);
+			tradeManager.seller = new Seller(0.0f, 0.3f, 0.1f, false);
+			tradeManager.buyer = new Buyer(0.0f, 0.2f, 0.1f);
 		}
 		return tradeManager;
 	}
@@ -50,6 +49,8 @@ public class TradeManager {
 			if (nextRequest instanceof AcceptTrade ||
 				nextRequest instanceof GiveUpTrade ||
 				requestCount >= maxRequests) break;
+
+			System.out.println("Seller offer: " + nextRequest.value + "$");
 			
 			nextRequest = buyer.giveResponse(nextRequest);
 			requestCount++;
@@ -58,7 +59,12 @@ public class TradeManager {
 			if (nextRequest instanceof AcceptTrade ||
 				nextRequest instanceof GiveUpTrade ||
 				requestCount >= maxRequests) break;
+				
+			System.out.println("Buyer offer: " + nextRequest.value + "$");
 		}
+
+		if (nextRequest instanceof AcceptTrade) System.out.println("Trade accepted");
+		else if (nextRequest instanceof GiveUpTrade) System.out.println("Trade cancelled");
 	}
 
 	public static boolean isLastRequest() {
@@ -85,10 +91,6 @@ public class TradeManager {
 	}
 
 	public void processRequest(ProposeOffer request) {
-		processRequestAbstract(request);
-	}	
-
-	public void processRequest(InitialOffer request) {
 		processRequestAbstract(request);
 	}
 }
