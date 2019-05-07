@@ -65,6 +65,7 @@ public class TradeManager {
 
 		if (nextRequest instanceof AcceptTrade) System.out.println("Trade accepted");
 		else if (nextRequest instanceof GiveUpTrade) System.out.println("Trade cancelled");
+		System.out.println(nextRequest.product.name + ": " + nextRequest.product.marketValue * nextRequest.product.quality + "$");
 	}
 
 	public static boolean isLastRequest() {

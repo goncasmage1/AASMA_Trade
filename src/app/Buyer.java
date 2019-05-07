@@ -11,21 +11,23 @@ public class Buyer extends Agent {
 
 	@Override
 	public Request giveResponse(Request request) {
-		String[] parameters = parseMessage(request.message);
+		if (request.messages != null && request.messages.size() > 0) {
+			
+		}
 		if (manager.isLastRequest()) {
 			//TODO: Nao randomizar!!
 			float giveUpProbability = manager.rand.nextFloat();
-			if (giveUpProbability >= 0.5f) return new GiveUpTrade(false);
-			else return new AcceptTrade(false);
+			if (giveUpProbability >= 0.5f) return new GiveUpTrade(false, request.product);
+			else return new AcceptTrade(false, request.product);
 		}
 
 		if (productKnowledge == -1.0f) updateProductKnowledge();
 		//Se valor se aproximar ou baixar da margem de lucro, indicar ultima oferta
 		float newValue = createNextOffer(request);
 
-		if (newValue >= request.value) return new AcceptTrade(false);
+		if (newValue >= request.value) return new AcceptTrade(false, request.product);
 
-		return new ProposeOffer(newValue, request.product, false, "");
+		return new ProposeOffer(newValue, request.product, false, null);
 	}
 
 	@Override

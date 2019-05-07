@@ -1,5 +1,7 @@
 package app;
 
+import java.util.ArrayList;
+
 public class Seller extends Agent {
 	
 	public boolean useBoulware = false;
@@ -11,11 +13,13 @@ public class Seller extends Agent {
 
 	@Override
 	public Request giveResponse(Request request) {
-		String[] parameters = request != null ? parseMessage(request.message) : new String[0];
+		if (request != null && request.messages != null && request.messages.size() > 0) {
+			
+		}
 		if (manager.isLastRequest()) {
 			float giveUpProbability = manager.rand.nextFloat();
-			if (giveUpProbability >= 0.5f) return new GiveUpTrade(false);
-			else return new AcceptTrade(false);
+			if (giveUpProbability >= 0.5f) return new GiveUpTrade(false, request.product);
+			else return new AcceptTrade(false, request.product);
 		}
 
 		//O agente deve sempre oferecer menos do que a sua ultima oferta
@@ -26,9 +30,9 @@ public class Seller extends Agent {
 			//Se valor se aproximar ou baixar da margem de lucro, indicar ultima oferta
 			float newValue = createNextOffer(request);
 
-			if (newValue <= request.value) return new AcceptTrade(true);
+			if (newValue <= request.value) return new AcceptTrade(true, request.product);
 
-			return new ProposeOffer(newValue, request.product, true, "");
+			return new ProposeOffer(newValue, request.product, true, null);
 		}
 	}
 
@@ -45,6 +49,10 @@ public class Seller extends Agent {
 	private Request buildInitialRequest() {
 		Product product = manager.products[manager.rand.nextInt(manager.products.length)];
 		float desiredValue = (product.marketValue * product.quality) * (1.0f + profitMargin) * (1.0f + offerInflation);
-		return new ProposeOffer(desiredValue, product, true, "");
+		ArrayList<String> messages = new ArrayList<String>();
+		if (manager.rand.nextFloat() < riskWillingness) {
+			messages.add(INFLATE);
+		}
+		return new ProposeOffer(desiredValue, product, true, messages);
 	}
 }
