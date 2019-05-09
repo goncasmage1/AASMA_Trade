@@ -7,13 +7,18 @@ public abstract class Agent {
 	public float profitMargin = 0.0f;
 	public float productUtility = 0.0f;
 	public float offerInflation = 0.0f;
+	public float necessity = 0.0f;
+	public float concedingFactor = 0.25f;
+	protected float perceivedValue = 0.0f;
 
 	public static String INFLATE = "INFLATE";
 	
-	public Agent(float riskWillingness, float profitMargin, float offerInflation) {
+	public Agent(float riskWillingness, float profitMargin, float offerInflation, float necessity, float concedingFactor) {
 		this.riskWillingness = riskWillingness;
 		this.profitMargin = profitMargin;
 		this.offerInflation = offerInflation;
+		this.necessity = necessity;
+		this.concedingFactor = concedingFactor;
 	}
 
 	float lerp(float point1, float point2, float alpha)
@@ -33,4 +38,6 @@ public abstract class Agent {
 	public abstract Request giveResponse(Request request);
 
 	protected abstract float createNextOffer(Request request);
+
+	protected abstract Request processLastRequest(Request request);
 }

@@ -6,20 +6,18 @@ public class Seller extends Agent {
 	
 	public boolean useBoulware = false;
 	
-	public Seller(float riskWillingness, float profitMargin, float offerInflation, boolean useBoulware) {
-		super(riskWillingness, profitMargin, offerInflation);
+	public Seller(float riskWillingness, float profitMargin, float offerInflation, float necessity, float concedingFactor, boolean useBoulware) {
+		super(riskWillingness, profitMargin, offerInflation, necessity, concedingFactor);
 		this.useBoulware = useBoulware;
 	}
 
 	@Override
 	public Request giveResponse(Request request) {
 		if (request != null && request.messages != null && request.messages.size() > 0) {
-			
+			return processLastRequest(request);
 		}
 		if (manager.isLastRequest()) {
-			float giveUpProbability = manager.rand.nextFloat();
-			if (giveUpProbability >= 0.5f) return new GiveUpTrade(false, request.product);
-			else return new AcceptTrade(false, request.product);
+			return processLastRequest(request);
 		}
 
 		//O agente deve sempre oferecer menos do que a sua ultima oferta
@@ -41,18 +39,26 @@ public class Seller extends Agent {
 		float lastOfferValue = manager.sellerRequests.get(manager.sellerRequests.size() - 1).value;
 
 		float offerValue = request.value;
-		float newOfferValue = lerp(lastOfferValue, offerValue, 0.2f);
+		float newOfferValue = lerp(lastOfferValue, offerValue, concedingFactor);
 
 		return newOfferValue;
 	}
 
+	@Override
+	protected Request processLastRequest(Request request) {
+		if (request.value >= request.product.getValue()) return new AcceptTrade(true, request.product);
+		float discrepancy = request.value / request.product.getValue();
+		return (1.0f - discrepancy) <= necessity ? new AcceptTrade(true, request.product) : new GiveUpTrade(true, request.product);
+	}
+
 	private Request buildInitialRequest() {
-		Product product = manager.products[manager.rand.nextInt(manager.products.length)];
-		float desiredValue = (product.marketValue * product.quality) * (1.0f + profitMargin) * (1.0f + offerInflation);
+		//Product product = manager.products[manager.rand.nextInt(manager.products.length)];
+		Product product = manager.products[0];
+		perceivedValue = product.getValue() * (1.0f + profitMargin) * (1.0f + offerInflation);
 		ArrayList<String> messages = new ArrayList<String>();
 		if (manager.rand.nextFloat() < riskWillingness) {
 			messages.add(INFLATE);
 		}
-		return new ProposeOffer(desiredValue, product, true, messages);
+		return new ProposeOffer(perceivedValue, product, true, messages);
 	}
 }

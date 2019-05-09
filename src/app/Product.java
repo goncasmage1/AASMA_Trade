@@ -12,4 +12,7 @@ public class Product {
 		this.quality = quality;
 	}
 
+	public float getValue() {
+		return marketValue * quality;
+	}
 }
