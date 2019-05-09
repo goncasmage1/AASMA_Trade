@@ -13,7 +13,9 @@ public class Seller extends Agent {
 
 	@Override
 	public Request giveResponse(Request request) {
-		if (request != null && request.messages != null && request.messages.size() > 0) {
+		ArrayList<String> messages = new ArrayList<>();
+
+		if (request != null && request.messages.contains(LAST)) {
 			return processLastRequest(request);
 		}
 		if (manager.isLastRequest()) {
@@ -30,16 +32,19 @@ public class Seller extends Agent {
 
 			if (newValue <= request.value) return new AcceptTrade(true, request.product);
 
-			return new ProposeOffer(newValue, request.product, true, null);
+			return new ProposeOffer(newValue, request.product, true, messages);
 		}
 	}
 
 	@Override
 	protected float createNextOffer(Request request) {
+
+		boolean detected = request.messages.contains(DETECTION);
+
 		float lastOfferValue = manager.sellerRequests.get(manager.sellerRequests.size() - 1).value;
 
 		float offerValue = request.value;
-		float newOfferValue = lerp(lastOfferValue, offerValue, concedingFactor);
+		float newOfferValue = lerp(lastOfferValue, offerValue, Math.min(concedingFactor * (detected ? 1.5f : 1.0f), 1.0f));
 
 		return newOfferValue;
 	}

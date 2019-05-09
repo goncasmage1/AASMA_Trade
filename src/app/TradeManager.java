@@ -32,7 +32,7 @@ public class TradeManager {
 	public static TradeManager get() {
 		if (tradeManager == null) {
 			tradeManager = new TradeManager();
-			tradeManager.seller = new Seller(0.0f, 0.3f, 0.1f, 0.15f, 0.25f, false);
+			tradeManager.seller = new Seller(0.8f, 0.3f, 0.1f, 0.15f, 0.25f, false);
 			tradeManager.buyer = new Buyer(0.0f, 0.2f, 0.1f, 0.15f, 0.25f);
 		}
 		return tradeManager;

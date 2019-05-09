@@ -1,9 +1,12 @@
 package app;
 
+import java.util.ArrayList;
+
 public class Buyer extends Agent {
 	
 	public float productKnowledge = -1.0f;
-	public float trust = 0.5f;
+	public float detectionThreshold = 0.65f;
+	//public float trust = 0.5f;
 	
 	public Buyer(float riskWillingness, float profitMargin, float offerInflation, float necessity, float concedingFactor) {
 		super(riskWillingness, profitMargin, offerInflation, necessity, concedingFactor);
@@ -11,8 +14,12 @@ public class Buyer extends Agent {
 
 	@Override
 	public Request giveResponse(Request request) {
+		ArrayList<String> messages = new ArrayList<>();
+
 		if (request.messages != null && request.messages.size() > 0) {
-			return processLastRequest(request);
+			if (request.messages.contains(LAST)) {
+				return processLastRequest(request);
+			}
 		}
 		if (manager.isLastRequest()) {
 			return processLastRequest(request);
@@ -22,18 +29,24 @@ public class Buyer extends Agent {
 			updateProductKnowledge();
 			perceivedValue = (request.product.getValue() / (1.0f + profitMargin)) / (1.0f + offerInflation);
 		} 
+
 		//Se valor se aproximar ou baixar da margem de lucro, indicar ultima oferta
 		float newValue = createNextOffer(request);
+		if (request.messages.contains(INFLATE) && productKnowledge > detectionThreshold) {
+			messages.add(DETECTION);
+		}
 
 		if (newValue >= request.value) return new AcceptTrade(false, request.product);
 
-		return new ProposeOffer(newValue, request.product, false, null);
+		return new ProposeOffer(newValue, request.product, false, messages);
 	}
 
 	@Override
 	protected float createNextOffer(Request request) {
 		if (manager.buyerRequests.size() == 0) {
-			return lerp(request.value, perceivedValue, productKnowledge);
+			//TODO: MUDEI ISTO!!
+			//return lerp(request.value, perceivedValue, productKnowledge);
+			return perceivedValue;
 		}
 		else {
 			float lastOfferValue = manager.buyerRequests.get(manager.buyerRequests.size() - 1).value;

@@ -12,6 +12,8 @@ public abstract class Agent {
 	protected float perceivedValue = 0.0f;
 
 	public static String INFLATE = "INFLATE";
+	public static String LAST = "LAST";
+	public static String DETECTION = "DETECTION";
 	
 	public Agent(float riskWillingness, float profitMargin, float offerInflation, float necessity, float concedingFactor) {
 		this.riskWillingness = riskWillingness;
