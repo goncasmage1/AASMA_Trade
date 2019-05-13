@@ -25,7 +25,7 @@ public class Strategy {
 		}
 		constant = k;
 		eFactor=e;
-		numRequests = nR/2;			
+		numRequests = nR/2;
 	}
 	
 	float getConcedingFactor(int currentRequestAgent) {		

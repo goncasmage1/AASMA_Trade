@@ -6,7 +6,6 @@ public class Buyer extends Agent {
 	
 	public float productKnowledge = -1.0f;
 	public float detectionThreshold = 0.65f;
-	//public float trust = 0.5f;
 	
 	public Buyer(float riskWillingness, float profitMargin, float offerInflation, float necessity, Strategy strategy) {
 		super(riskWillingness, profitMargin, offerInflation, necessity, strategy);
@@ -14,47 +13,52 @@ public class Buyer extends Agent {
 
 	@Override
 	public Request giveResponse(Request request) {
-		ArrayList<String> messages = new ArrayList<>();
-
-		if (request.messages != null && request.messages.size() > 0) {
-			if (request.messages.contains(LAST)) {
-				return processLastRequest(request);
-			}
-		}
+		ArrayList<String> messages = new ArrayList<String>();
+		
 		if (manager.isLastRequest()) {
 			return processLastRequest(request);
 		}
-
+		else if (manager.isBeforeBeforeLastRequest()) {
+			if (request.value > request.product.getValue() && manager.rand.nextFloat() < riskWillingness) {
+				messages.add(BETTER);
+			}
+		}
+		
 		if (productKnowledge == -1.0f) {
 			updateProductKnowledge();
 			perceivedValue = (request.product.getValue() / (1.0f + profitMargin)) / (1.0f + offerInflation);
 		} 
-
+		
 		//Se valor se aproximar ou baixar da margem de lucro, indicar ultima oferta
-		float newValue = createNextOffer(request);
-		if (request.messages.contains(INFLATE) && productKnowledge > detectionThreshold) {
-			messages.add(DETECTION);
+		boolean inflate = false;
+		if (request.messages.contains(INFLATE)) {
+			if (productKnowledge > detectionThreshold) {
+				messages.add(DETECTION);
+			}
+			else inflate = true;
 		}
-
+		float newValue = createNextOffer(request, inflate);
+		
 		if (newValue >= request.value) return new AcceptTrade(false, request.product);
 
+		if (request.messages != null && request.messages.contains(BETTER)) {
+			return processBetterOffer(request, newValue);
+		}
 		return new ProposeOffer(newValue, request.product, false, messages);
 	}
-
+	
 	@Override
-	protected float createNextOffer(Request request) {
+	protected float createNextOffer(Request request, boolean inflate) {
 		
 		int numCurrentRequest = manager.buyerRequests.size()+1;
 		float concedingFactor = strategy.getConcedingFactor(numCurrentRequest);
 		
 		if (manager.buyerRequests.size() == 0) {
-			//TODO: MUDEI ISTO!!
-			//return lerp(request.value, perceivedValue, productKnowledge);
-			return perceivedValue;
+			return lerp(perceivedValue, request.value, inflate ? 0.4f * productKnowledge : 0.0f);
 		}
 		else {
 			float lastOfferValue = manager.buyerRequests.get(manager.buyerRequests.size() - 1).value;
-
+			
 			float offerValue = request.value;
 			float newOfferValue = lerp(lastOfferValue, offerValue, concedingFactor);
 			return newOfferValue;
@@ -66,6 +70,12 @@ public class Buyer extends Agent {
 		if (request.value <= request.product.getValue()) return new AcceptTrade(false, request.product);
 		float discrepancy = request.product.getValue() / request.value;
 		return (1.0f - discrepancy) <= necessity ? new AcceptTrade(false, request.product) : new GiveUpTrade(false, request.product);
+	}
+
+	@Override
+	protected Request processBetterOffer(Request request, float newValue) {
+		if (request.value <= request.product.getValue()) return new AcceptTrade(false, request.product);
+		return new ProposeOffer(lerp(newValue, request.value, necessity), request.product, false, new ArrayList<String>());
 	}
 
 	private void updateProductKnowledge() {

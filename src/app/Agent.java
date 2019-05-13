@@ -12,7 +12,7 @@ public abstract class Agent {
 	protected float perceivedValue = 0.0f;
 
 	public static String INFLATE = "INFLATE";
-	public static String LAST = "LAST";
+	public static String BETTER = "BETTER";
 	public static String DETECTION = "DETECTION";
 	
 	public Agent(float riskWillingness, float profitMargin, float offerInflation, float necessity, Strategy strategy) {
@@ -39,7 +39,9 @@ public abstract class Agent {
 	
 	public abstract Request giveResponse(Request request);
 
-	protected abstract float createNextOffer(Request request);
+	protected abstract float createNextOffer(Request request, boolean inflate);
 
 	protected abstract Request processLastRequest(Request request);
+
+	protected abstract Request processBetterOffer(Request request, float newValue);
 }

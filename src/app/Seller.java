@@ -13,11 +13,13 @@ public class Seller extends Agent {
 	public Request giveResponse(Request request) {
 		ArrayList<String> messages = new ArrayList<>();
 
-		if (request != null && request.messages.contains(LAST)) {
-			return processLastRequest(request);
-		}
 		if (manager.isLastRequest()) {
 			return processLastRequest(request);
+		}
+		else if (manager.isBeforeBeforeLastRequest()) {
+			if (request.value < request.product.getValue() && manager.rand.nextFloat() < riskWillingness) {
+				messages.add(BETTER);
+			}
 		}
 
 		//O agente deve sempre oferecer menos do que a sua ultima oferta
@@ -26,16 +28,19 @@ public class Seller extends Agent {
 		}
 		else {
 			//Se valor se aproximar ou baixar da margem de lucro, indicar ultima oferta
-			float newValue = createNextOffer(request);
+			float newValue = createNextOffer(request, false);
 
 			if (newValue <= request.value) return new AcceptTrade(true, request.product);
 
+			if (request.messages != null && request.messages.contains(BETTER)) {
+				return processBetterOffer(request, newValue);
+			}
 			return new ProposeOffer(newValue, request.product, true, messages);
 		}
 	}
 
 	@Override
-	protected float createNextOffer(Request request) {
+	protected float createNextOffer(Request request, boolean inflate) {
 
 		boolean detected = request.messages.contains(DETECTION);
 
@@ -54,6 +59,12 @@ public class Seller extends Agent {
 		if (request.value >= request.product.getValue()) return new AcceptTrade(true, request.product);
 		float discrepancy = request.value / request.product.getValue();
 		return (1.0f - discrepancy) <= necessity ? new AcceptTrade(true, request.product) : new GiveUpTrade(true, request.product);
+	}
+	
+	@Override
+	protected Request processBetterOffer(Request request, float newValue) {
+		if (request.value >= request.product.getValue()) return new AcceptTrade(true, request.product);
+		return new ProposeOffer(lerp(newValue, request.value, necessity), request.product, true, new ArrayList<String>());
 	}
 
 	private Request buildInitialRequest() {

@@ -7,6 +7,9 @@ public class TradeManager {
 	
 	public static Buyer buyer;
 	public static Seller seller;
+
+	public int maxTrades = 10;
+	public int minTrades = 5;
 	
 	private static TradeManager tradeManager;
 
@@ -26,14 +29,14 @@ public class TradeManager {
 	public static int requestCount = 0;
 	
 	public TradeManager() {
-		maxRequests = rand.nextInt((10 - 4) + 1) + 4;
+		maxRequests = rand.nextInt((maxTrades - minTrades) + 1) + minTrades;
 	}
 	
 	public static TradeManager get() {
 		if (tradeManager == null) {
 			tradeManager = new TradeManager();
-			tradeManager.seller = new Seller(0.8f, 0.3f, 0.1f, 0.15f, new Strategy(maxRequests, 1.0f, 0.02f));
-			tradeManager.buyer = new Buyer(0.0f, 0.2f, 0.1f, 0.15f, new Strategy (maxRequests, 50.0f, 0.3f));
+			tradeManager.seller = new Seller(0.8f, 0.3f, 0.1f, 0.4f, new Strategy(maxRequests, 1.0f, 0.25f));
+			tradeManager.buyer = new Buyer(0.6f, 0.2f, 0.1f, 0.4f, new Strategy (maxRequests, 1.0f, 0.25f));
 		}
 		return tradeManager;
 	}
@@ -42,10 +45,12 @@ public class TradeManager {
 		Request nextRequest = null;
 
 		System.out.println("Max: " + maxRequests);
+		System.out.println();
 
 		while(true) {
 			nextRequest = seller.giveResponse(nextRequest);
 			requestCount++;
+			if (nextRequest.messages != null) for (int i = 0; i < nextRequest.messages.size(); i++) System.out.println(nextRequest.messages.get(i));
 			nextRequest.accept(this);
 			
 			if (nextRequest instanceof AcceptTrade ||
@@ -56,6 +61,7 @@ public class TradeManager {
 			
 			nextRequest = buyer.giveResponse(nextRequest);
 			requestCount++;
+			if (nextRequest.messages != null) for (int i = 0; i < nextRequest.messages.size(); i++) System.out.println(nextRequest.messages.get(i));
 			nextRequest.accept(this);
 			
 			if (nextRequest instanceof AcceptTrade ||
@@ -65,13 +71,26 @@ public class TradeManager {
 			System.out.println("Buyer offer: " + nextRequest.value + "$");
 		}
 
+		System.out.println();
 		if (nextRequest instanceof AcceptTrade) System.out.println("Trade accepted");
 		else if (nextRequest instanceof GiveUpTrade) System.out.println("Trade cancelled");
 		System.out.println(nextRequest.product.name + ": " + nextRequest.product.marketValue * nextRequest.product.quality + "$");
 	}
 
 	public static boolean isLastRequest() {
-		return requestCount >= (maxRequests-1);
+		return requestCount == (maxRequests-1);
+	}
+
+	public static boolean isBeforeLastRequest() {
+		return requestCount == (maxRequests-2);
+	}
+
+	public static boolean isBeforeBeforeLastRequest() {
+		return requestCount == (maxRequests-3);
+	}
+
+	public static float tradeProgress() {
+		return (float)requestCount / (float)maxRequests;
 	}
 	
 	public void processRequestAbstract(Request request) {
