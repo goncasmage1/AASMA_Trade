@@ -10,7 +10,7 @@ public class Strategy {
 	public int numRequests;
 	public float constant;
 	public float eFactor;
-	public float previousConcedingFactor;
+	public float previousFunctionRes;
 	
 	Strategy(int nR, float e, float k) {
 		if (e == 1) {
@@ -29,22 +29,14 @@ public class Strategy {
 	}
 	
 	float getConcedingFactor(int currentRequestAgent) {		
-		
+		//por contas linear ou deixar como esta?
 		if (strategy.equals(LINEAR)) {
 			return constant;
 		}
 		else if (strategy.equals(CONCEDER) || strategy.equals(BOULWARE)) {
 			float functionRes = (float) (constant + (1-constant)*Math.pow((double)Math.min(currentRequestAgent, numRequests)/numRequests, (double)1/eFactor));
-			float concedingFactor;
-						
-			if(currentRequestAgent == 1) {
-				concedingFactor = functionRes;
-			}
-			else {
-				concedingFactor = functionRes - previousConcedingFactor;
-			}
-			
-			previousConcedingFactor = functionRes;
+			float concedingFactor = functionRes - previousFunctionRes;
+			previousFunctionRes = functionRes;
 			System.out.println(strategy + " Current Request: " + currentRequestAgent + " Total Requests: " + numRequests + " Conceding Factor: " + concedingFactor);
 			return concedingFactor;
 
