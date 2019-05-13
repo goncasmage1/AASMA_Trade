@@ -26,14 +26,14 @@ public class TradeManager {
 	public static int requestCount = 0;
 	
 	public TradeManager() {
-		maxRequests = rand.nextInt((10 - 4) + 1) + 4;
+		maxRequests = rand.nextInt((15 - 10) + 1) + 10;
 	}
 	
 	public static TradeManager get() {
 		if (tradeManager == null) {
 			tradeManager = new TradeManager();
-			tradeManager.seller = new Seller(0.8f, 0.3f, 0.1f, 0.15f, 0.25f, false);
-			tradeManager.buyer = new Buyer(0.0f, 0.2f, 0.1f, 0.15f, 0.25f);
+			tradeManager.seller = new Seller(0.8f, 0.3f, 0.1f, 0.15f, new Strategy(maxRequests, 0.02f, 0.2f));
+			tradeManager.buyer = new Buyer(0.0f, 0.2f, 0.1f, 0.15f, new Strategy (maxRequests, 50.0f, 0.2f));
 		}
 		return tradeManager;
 	}

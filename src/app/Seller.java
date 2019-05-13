@@ -4,11 +4,9 @@ import java.util.ArrayList;
 
 public class Seller extends Agent {
 	
-	public boolean useBoulware = false;
 	
-	public Seller(float riskWillingness, float profitMargin, float offerInflation, float necessity, float concedingFactor, boolean useBoulware) {
-		super(riskWillingness, profitMargin, offerInflation, necessity, concedingFactor);
-		this.useBoulware = useBoulware;
+	public Seller(float riskWillingness, float profitMargin, float offerInflation, float necessity, Strategy strategy) {
+		super(riskWillingness, profitMargin, offerInflation, necessity, strategy);
 	}
 
 	@Override
@@ -42,8 +40,10 @@ public class Seller extends Agent {
 		boolean detected = request.messages.contains(DETECTION);
 
 		float lastOfferValue = manager.sellerRequests.get(manager.sellerRequests.size() - 1).value;
-
 		float offerValue = request.value;
+		
+		int numCurrentRequest = manager.sellerRequests.size()+1;
+		float concedingFactor = strategy.getConcedingFactor(numCurrentRequest);
 		float newOfferValue = lerp(lastOfferValue, offerValue, Math.min(concedingFactor * (detected ? 1.5f : 1.0f), 1.0f));
 
 		return newOfferValue;
@@ -57,8 +57,8 @@ public class Seller extends Agent {
 	}
 
 	private Request buildInitialRequest() {
-		//Product product = manager.products[manager.rand.nextInt(manager.products.length)];
-		Product product = manager.products[0];
+		Product product = manager.products[manager.rand.nextInt(manager.products.length)];
+		//Product product = manager.products[0];
 		perceivedValue = product.getValue() * (1.0f + profitMargin) * (1.0f + offerInflation);
 		ArrayList<String> messages = new ArrayList<String>();
 		if (manager.rand.nextFloat() < riskWillingness) {

@@ -8,8 +8,8 @@ public class Buyer extends Agent {
 	public float detectionThreshold = 0.65f;
 	//public float trust = 0.5f;
 	
-	public Buyer(float riskWillingness, float profitMargin, float offerInflation, float necessity, float concedingFactor) {
-		super(riskWillingness, profitMargin, offerInflation, necessity, concedingFactor);
+	public Buyer(float riskWillingness, float profitMargin, float offerInflation, float necessity, Strategy strategy) {
+		super(riskWillingness, profitMargin, offerInflation, necessity, strategy);
 	}
 
 	@Override
@@ -43,6 +43,10 @@ public class Buyer extends Agent {
 
 	@Override
 	protected float createNextOffer(Request request) {
+		
+		int numCurrentRequest = manager.buyerRequests.size()+1;
+		float concedingFactor = strategy.getConcedingFactor(numCurrentRequest);
+		
 		if (manager.buyerRequests.size() == 0) {
 			//TODO: MUDEI ISTO!!
 			//return lerp(request.value, perceivedValue, productKnowledge);
