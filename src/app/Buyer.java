@@ -50,9 +50,6 @@ public class Buyer extends Agent {
 	@Override
 	protected float createNextOffer(Request request, boolean inflate) {
 		
-		int numCurrentRequest = manager.buyerRequests.size()+1;
-		float concedingFactor = strategy.getConcedingFactor(numCurrentRequest);
-		
 		if (manager.buyerRequests.size() == 0) {
 			return lerp(perceivedValue, request.value, inflate ? 0.4f * productKnowledge : 0.0f);
 		}
@@ -60,6 +57,10 @@ public class Buyer extends Agent {
 			float lastOfferValue = manager.buyerRequests.get(manager.buyerRequests.size() - 1).value;
 			
 			float offerValue = request.value;
+			
+			int numCurrentRequest = manager.buyerRequests.size()-1;
+			float concedingFactor = strategy.getConcedingFactor(numCurrentRequest);
+			
 			float newOfferValue = lerp(lastOfferValue, offerValue, concedingFactor);
 			return newOfferValue;
 		}

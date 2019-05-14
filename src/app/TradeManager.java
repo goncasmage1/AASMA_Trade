@@ -8,8 +8,8 @@ public class TradeManager {
 	public static Buyer buyer;
 	public static Seller seller;
 
-	public int maxTrades = 10;
-	public int minTrades = 5;
+	public int maxTrades = 15;
+	public int minTrades = 10;
 	
 	private static TradeManager tradeManager;
 
@@ -35,8 +35,8 @@ public class TradeManager {
 	public static TradeManager get() {
 		if (tradeManager == null) {
 			tradeManager = new TradeManager();
-			tradeManager.seller = new Seller(0.8f, 0.3f, 0.1f, 0.4f, new Strategy(maxRequests, 1.0f, 0.25f));
-			tradeManager.buyer = new Buyer(0.6f, 0.2f, 0.1f, 0.4f, new Strategy (maxRequests, 1.0f, 0.25f));
+			tradeManager.seller = new Seller(0.8f, 0.3f, 0.1f, 0.1f, new Strategy(maxRequests, 0.0f, 0.1f, 1.0f));
+			tradeManager.buyer = new Buyer(0.6f, 0.4f, 0.1f, 0.1f, new Strategy (maxRequests, 1.0f, 0.1f, 1.0f));
 		}
 		return tradeManager;
 	}

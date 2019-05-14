@@ -47,7 +47,8 @@ public class Seller extends Agent {
 		float lastOfferValue = manager.sellerRequests.get(manager.sellerRequests.size() - 1).value;
 		float offerValue = request.value;
 		
-		int numCurrentRequest = manager.sellerRequests.size()+1;
+		int numCurrentRequest = manager.sellerRequests.size()-1;
+		
 		float concedingFactor = strategy.getConcedingFactor(numCurrentRequest);
 		float newOfferValue = lerp(lastOfferValue, offerValue, Math.min(concedingFactor * (detected ? 1.5f : 1.0f), 1.0f));
 
@@ -69,7 +70,7 @@ public class Seller extends Agent {
 
 	private Request buildInitialRequest() {
 		Product product = manager.products[manager.rand.nextInt(manager.products.length)];
-		//Product product = manager.products[0];
+		//Product product = manager.products[1];
 		perceivedValue = product.getValue() * (1.0f + profitMargin) * (1.0f + offerInflation);
 		ArrayList<String> messages = new ArrayList<String>();
 		if (manager.rand.nextFloat() < riskWillingness) {
