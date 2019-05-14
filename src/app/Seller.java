@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class Seller extends Agent {
 	
 	
-	public Seller(float riskWillingness, float profitMargin, float offerInflation, float necessity, Strategy strategy) {
-		super(riskWillingness, profitMargin, offerInflation, necessity, strategy);
+	public Seller(AgentConfig config) {
+		super(config);
 	}
 
 	@Override
@@ -27,7 +27,6 @@ public class Seller extends Agent {
 			return buildInitialRequest();
 		}
 		else {
-			//Se valor se aproximar ou baixar da margem de lucro, indicar ultima oferta
 			float newValue = createNextOffer(request, false);
 
 			if (newValue <= request.value) return new AcceptTrade(true, request.product);

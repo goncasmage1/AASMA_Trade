@@ -7,8 +7,8 @@ public class Buyer extends Agent {
 	public float productKnowledge = -1.0f;
 	public float detectionThreshold = 0.65f;
 	
-	public Buyer(float riskWillingness, float profitMargin, float offerInflation, float necessity, Strategy strategy) {
-		super(riskWillingness, profitMargin, offerInflation, necessity, strategy);
+	public Buyer(AgentConfig config) {
+		super(config);
 	}
 
 	@Override
@@ -29,7 +29,6 @@ public class Buyer extends Agent {
 			perceivedValue = (request.product.getValue() / (1.0f + profitMargin)) / (1.0f + offerInflation);
 		} 
 		
-		//Se valor se aproximar ou baixar da margem de lucro, indicar ultima oferta
 		boolean inflate = false;
 		if (request.messages.contains(INFLATE)) {
 			if (productKnowledge > detectionThreshold) {

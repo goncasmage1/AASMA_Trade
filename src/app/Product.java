@@ -6,6 +6,7 @@ public class Product {
 	public String name;
 	public float marketValue = 0.0f;
 	public float quality = 1.0f;
+	private float value = 0.0f;
 	
 	//Name of the product: String
 	//Market value of the product: float
@@ -14,9 +15,10 @@ public class Product {
 		this.name = name;
 		this.marketValue = marketValue;
 		this.quality = quality;
+		this.value = marketValue * quality;
 	}
 
 	public float getValue() {
-		return marketValue * quality; //Real value of the product
+		return this.value; //Real value of the product
 	}
 }

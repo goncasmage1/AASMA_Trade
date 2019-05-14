@@ -15,12 +15,12 @@ public abstract class Agent {
 	public static String BETTER = "BETTER";
 	public static String DETECTION = "DETECTION";
 	
-	public Agent(float riskWillingness, float profitMargin, float offerInflation, float necessity, Strategy strategy) {
-		this.riskWillingness = riskWillingness;
-		this.profitMargin = profitMargin;
-		this.offerInflation = offerInflation;
-		this.necessity = necessity;
-		this.strategy = strategy;
+	public Agent(AgentConfig config) {
+		this.riskWillingness = config.riskWillingness;
+		this.profitMargin = config.profitMargin;
+		this.offerInflation = config.offerInflation;
+		this.necessity = config.necessity;
+		this.strategy = config.strategy;
 	}
 
 	float lerp(float point1, float point2, float alpha)

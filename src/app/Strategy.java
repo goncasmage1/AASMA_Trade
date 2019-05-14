@@ -46,10 +46,12 @@ public class Strategy {
 		//for each agent the number of requests that use a conceding factor correspond to
 		//half of number of requests minus 2 (because the first buyer and seller requests
 		//don't use a conceding factor
-		numRequests = nR/2-2; 
-
+		numRequests = nR/2-2;
 	}
-	
+
+	public void reset() {
+		previousFunctionRes = 0;
+	}
 	
 	float getConcedingFactor(int currentRequestAgent) {
 		float concedingFactor = 0.0f;
@@ -67,7 +69,6 @@ public class Strategy {
 			previousFunctionRes = functionRes;
 		}
 		
-		System.out.println();
 		System.out.println(strategy + " Current Request: " + currentRequestAgent + " Total Requests: " + numRequests + " Conceding Factor: " + concedingFactor);
 		
 		return concedingFactor;
