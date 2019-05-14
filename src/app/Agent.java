@@ -1,5 +1,7 @@
 package app;
 
+//Agent: Superclass
+//Agent can be a buyer or a seller
 public abstract class Agent {
 	
 	TradeManager manager = TradeManager.get();
@@ -11,8 +13,12 @@ public abstract class Agent {
 	public Strategy strategy;
 	protected float perceivedValue = 0.0f;
 
+	//deception methods
+	//inflate price
 	public static String INFLATE = "INFLATE";
+	//agent says he has better offer
 	public static String BETTER = "BETTER";
+	//agent detects deception (inflate)
 	public static String DETECTION = "DETECTION";
 	
 	public Agent(AgentConfig config) {
@@ -23,6 +29,7 @@ public abstract class Agent {
 		this.strategy = config.strategy;
 	}
 
+	//auxiliary functions
 	float lerp(float point1, float point2, float alpha)
 	{
 		return point1 + alpha * (point2 - point1);
