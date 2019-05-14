@@ -19,6 +19,7 @@ public class TradeManager {
 		new Product("Ferrari Sabrini", 10000, 0.7f),
 		new Product("Asus Laptop", 800, 0.9f),
 		new Product("MAC XPTO", 2000, 0.4f),
+		new Product("Casaco da Zara", 30, 1.0f),
 	};
 	
 	public ArrayList<Request> requests = new ArrayList<Request>();
@@ -35,8 +36,8 @@ public class TradeManager {
 	public static TradeManager get() {
 		if (tradeManager == null) {
 			tradeManager = new TradeManager();
-			tradeManager.seller = new Seller(0.8f, 0.3f, 0.1f, 0.1f, new Strategy(maxRequests, 0.0f, 0.1f, 1.0f));
-			tradeManager.buyer = new Buyer(0.6f, 0.4f, 0.1f, 0.1f, new Strategy (maxRequests, 1.0f, 0.1f, 1.0f));
+			tradeManager.seller = new Seller(0.8f, 0.3f, 0.1f, 0.1f, new Strategy(maxRequests, 2.0f, 0.1f));
+			tradeManager.buyer = new Buyer(0.6f, 0.4f, 0.1f, 0.1f, new Strategy (maxRequests, 0.3f, 0.1f));
 		}
 		return tradeManager;
 	}

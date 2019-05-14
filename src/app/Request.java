@@ -2,13 +2,19 @@ package app;
 
 import java.util.ArrayList;
 
-public class Request {
+//Request: Superclass
+//Proposal/Request by agent
+public class Request { 
 	
 	public float value = 0.0f;
 	public Product product = null;
 	public ArrayList<String> messages;
 	public boolean isSeller = false;
 	
+	//Value proposed: float
+	//Product involved in negotiation: Product
+	//Is Seller flag: boolean
+	//Messages sent: ArrayList<String>
 	public Request(float value, Product product, boolean isSeller, ArrayList<String> messages) {
 		this.value = value;
 		this.product = product;
@@ -16,7 +22,5 @@ public class Request {
 		this.messages = messages;
 	}
 	
-	public void accept(TradeManager visitor) {
-		
-	}
+	public void accept(TradeManager visitor) {}
 }
