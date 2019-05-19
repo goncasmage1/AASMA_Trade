@@ -19,14 +19,14 @@ public class Buyer extends Agent {
 			return processLastRequest(request);
 		}
 		else if (manager.isBeforeBeforeLastRequest()) {
-			if (request.value > request.product.getValue() && manager.rand.nextFloat() < riskWillingness) {
+			if (request.value > request.product.getValue() && manager.rand.nextFloat() < config.riskWillingness) {
 				messages.add(BETTER);
 			}
 		}
 		
 		if (productKnowledge == -1.0f) {
 			updateProductKnowledge();
-			perceivedValue = (request.product.getValue() / (1.0f + profitMargin)) / (1.0f + offerInflation);
+			perceivedValue = (request.product.getValue() / (1.0f + config.profitMargin)) / (1.0f + config.offerInflation);
 		} 
 		
 		boolean inflate = false;
@@ -58,7 +58,7 @@ public class Buyer extends Agent {
 			float offerValue = request.value;
 			
 			int numCurrentRequest = manager.buyerRequests.size()-1;
-			float concedingFactor = strategy.getConcedingFactor(numCurrentRequest);
+			float concedingFactor = config.strategy.getConcedingFactor(numCurrentRequest);
 			
 			float newOfferValue = lerp(lastOfferValue, offerValue, concedingFactor);
 			return newOfferValue;
@@ -69,13 +69,13 @@ public class Buyer extends Agent {
 	protected Request processLastRequest(Request request) {
 		if (request.value <= request.product.getValue()) return new AcceptTrade(false, request.product);
 		float discrepancy = request.product.getValue() / request.value;
-		return (1.0f - discrepancy) <= necessity ? new AcceptTrade(false, request.product) : new GiveUpTrade(false, request.product);
+		return (1.0f - discrepancy) <= config.necessity ? new AcceptTrade(false, request.product) : new GiveUpTrade(false, request.product);
 	}
 
 	@Override
 	protected Request processBetterOffer(Request request, float newValue) {
 		if (request.value <= request.product.getValue()) return new AcceptTrade(false, request.product);
-		return new ProposeOffer(lerp(newValue, request.value, necessity), request.product, false, new ArrayList<String>());
+		return new ProposeOffer(lerp(newValue, request.value, config.necessity), request.product, false, new ArrayList<String>());
 	}
 
 	private void updateProductKnowledge() {

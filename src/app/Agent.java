@@ -5,13 +5,8 @@ package app;
 public abstract class Agent {
 	
 	TradeManager manager = TradeManager.get();
-	public float riskWillingness = 0.0f;
-	public float profitMargin = 0.0f;
-	public float productUtility = 0.0f;
-	public float offerInflation = 0.0f;
-	public float necessity = 0.0f;
-	public Strategy strategy;
 	protected float perceivedValue = 0.0f;
+	AgentConfig config;
 
 	//deception methods
 	//inflate price
@@ -22,11 +17,7 @@ public abstract class Agent {
 	public static String DETECTION = "DETECTION";
 	
 	public Agent(AgentConfig config) {
-		this.riskWillingness = config.riskWillingness;
-		this.profitMargin = config.profitMargin;
-		this.offerInflation = config.offerInflation;
-		this.necessity = config.necessity;
-		this.strategy = config.strategy;
+		this.config = config;
 	}
 
 	//auxiliary functions
