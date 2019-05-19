@@ -34,7 +34,7 @@ public class App {
             trades.add(tradeResult);
             System.out.println();
 
-            out.append(tradeResult.accepted + "," + tradeResult.sellerProfitAmount + "," + tradeResult.sellerProfitMargin + "\n");
+            out.append(tradeResult.productValue + "," + tradeResult.accepted + "," + tradeResult.sellerProfitAmount + "," + tradeResult.sellerProfitMargin + "\n");
         }
         out.close();
         
