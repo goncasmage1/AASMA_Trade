@@ -72,7 +72,7 @@ public class Seller extends Agent {
 		//Product product = manager.products[1];
 		perceivedValue = product.getValue() * (1.0f + config.profitMargin) * (1.0f + config.offerInflation);
 		ArrayList<String> messages = new ArrayList<String>();
-		if (config.riskWillingness > 0.0f && manager.rand.nextFloat() < config.riskWillingness) {
+		if (manager.rand.nextFloat() < config.riskWillingness) {
 			messages.add(INFLATE);
 		}
 		return new ProposeOffer(perceivedValue, product, true, messages);
