@@ -1,5 +1,6 @@
 package app;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -18,10 +19,19 @@ public class App {
         AgentConfig sellerConfig = new AgentConfig(0.8f, 0.3f, 0.1f, 0.1f, new Strategy(maxRequests, 2.0f, 0.1f));
         AgentConfig buyerConfig = new AgentConfig(0.6f, 0.4f, 0.1f, 0.1f, new Strategy (maxRequests, 0.3f, 0.1f));
 
+        FileWriter out = new FileWriter("TradeResults1.csv");
+        out.write("");
         for (int i = 0; i < numOfSimulations; i++) {
+
             System.out.println("TRADE " + (i+1));
-            trades.add(tradeManager.startTrade(maxRequests, sellerConfig, buyerConfig));
+            TradeResult tradeResult = tradeManager.startTrade(maxRequests, sellerConfig, buyerConfig);
+            trades.add(tradeResult);
             System.out.println();
+
+            out.append(tradeResult.accepted + "," + tradeResult.sellerProfitAmount + "," + tradeResult.sellerProfitMargin + "\n");
         }
+        out.close();
+        
+
     }
 }
