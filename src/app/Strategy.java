@@ -69,7 +69,7 @@ public class Strategy {
 			previousFunctionRes = functionRes;
 		}
 		
-		System.out.println(strategy + " Current Request: " + currentRequestAgent + " Total Requests: " + numRequests + " Conceding Factor: " + concedingFactor);
+		//System.out.println(strategy + " Current Request: " + currentRequestAgent + " Total Requests: " + numRequests + " Conceding Factor: " + concedingFactor);
 		
 		return concedingFactor;
 	}
