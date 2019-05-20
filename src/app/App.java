@@ -9,54 +9,54 @@ public class App {
     public static ArrayList<TradeResult> trades = new ArrayList<>();
     public static int numOfSimulations = 150;
 
-    public static int maxTrades = 15;
+    public static int maxTrades = 11;
     public static int minTrades = 10;
     public static Random rand = new Random();
 
     static AgentConfig[] sellerConfigs = {
-        new AgentConfig(0.0f, 0.3f, 0.1f, 0.4f, new Strategy(0, 0.0f, 0.1f)),
-        new AgentConfig(1.0f, 0.3f, 0.1f, 0.4f, new Strategy(0, 0.0f, 0.1f)),
-        new AgentConfig(0.0f, 0.3f, 0.1f, 0.4f, new Strategy(0, 0.0f, 0.1f)),
-        new AgentConfig(1.0f, 0.3f, 0.1f, 0.4f, new Strategy(0, 0.0f, 0.1f)),
-        new AgentConfig(0.0f, 0.3f, 0.1f, 0.4f, new Strategy(0, 2.0f, 0.1f)),
-        new AgentConfig(1.0f, 0.3f, 0.1f, 0.4f, new Strategy(0, 2.0f, 0.1f)),
-        new AgentConfig(0.0f, 0.3f, 0.1f, 0.4f, new Strategy(0, 2.0f, 0.1f)),
-        new AgentConfig(1.0f, 0.3f, 0.1f, 0.4f, new Strategy(0, 2.0f, 0.1f)),
-        new AgentConfig(0.0f, 0.3f, 0.1f, 0.4f, new Strategy(0, 0.3f, 0.1f)),
-        new AgentConfig(1.0f, 0.3f, 0.1f, 0.4f, new Strategy(0, 0.3f, 0.1f)),
-        new AgentConfig(0.0f, 0.3f, 0.1f, 0.4f, new Strategy(0, 0.3f, 0.1f)),
-        new AgentConfig(1.0f, 0.3f, 0.1f, 0.4f, new Strategy(0, 0.3f, 0.1f)),
-        new AgentConfig(0.0f, 0.3f, 0.1f, 0.4f, new Strategy(0, 2.0f, 0.1f)),
-        new AgentConfig(1.0f, 0.3f, 0.1f, 0.4f, new Strategy(0, 2.0f, 0.1f)),
-        new AgentConfig(0.0f, 0.3f, 0.1f, 0.4f, new Strategy(0, 2.0f, 0.1f)),
-        new AgentConfig(1.0f, 0.3f, 0.1f, 0.4f, new Strategy(0, 2.0f, 0.1f)),
-        new AgentConfig(0.0f, 0.3f, 0.1f, 0.4f, new Strategy(0, 0.3f, 0.1f)),
-        new AgentConfig(1.0f, 0.3f, 0.1f, 0.4f, new Strategy(0, 0.3f, 0.1f)),
-        new AgentConfig(0.0f, 0.3f, 0.1f, 0.4f, new Strategy(0, 0.3f, 0.1f)),
-        new AgentConfig(1.0f, 0.3f, 0.1f, 0.4f, new Strategy(0, 0.3f, 0.1f)),
+        new AgentConfig(0.0f, 0.3f, 0.1f, 0.25f, new Strategy(0, 0.0f, 0.1f)),
+        new AgentConfig(1.0f, 0.3f, 0.1f, 0.25f, new Strategy(0, 0.0f, 0.1f)),
+        new AgentConfig(0.0f, 0.3f, 0.1f, 0.25f, new Strategy(0, 0.0f, 0.1f)),
+        new AgentConfig(1.0f, 0.3f, 0.1f, 0.25f, new Strategy(0, 0.0f, 0.1f)),
+        new AgentConfig(0.0f, 0.3f, 0.1f, 0.25f, new Strategy(0, 2.0f, 0.1f)),
+        new AgentConfig(1.0f, 0.3f, 0.1f, 0.25f, new Strategy(0, 2.0f, 0.1f)),
+        new AgentConfig(0.0f, 0.3f, 0.1f, 0.25f, new Strategy(0, 2.0f, 0.1f)),
+        new AgentConfig(1.0f, 0.3f, 0.1f, 0.25f, new Strategy(0, 2.0f, 0.1f)),
+        new AgentConfig(0.0f, 0.3f, 0.1f, 0.25f, new Strategy(0, 0.3f, 0.1f)),
+        new AgentConfig(1.0f, 0.3f, 0.1f, 0.25f, new Strategy(0, 0.3f, 0.1f)),
+        new AgentConfig(0.0f, 0.3f, 0.1f, 0.25f, new Strategy(0, 0.3f, 0.1f)),
+        new AgentConfig(1.0f, 0.3f, 0.1f, 0.25f, new Strategy(0, 0.3f, 0.1f)),
+        new AgentConfig(0.0f, 0.3f, 0.1f, 0.25f, new Strategy(0, 2.0f, 0.1f)),
+        new AgentConfig(1.0f, 0.3f, 0.1f, 0.25f, new Strategy(0, 2.0f, 0.1f)),
+        new AgentConfig(0.0f, 0.3f, 0.1f, 0.25f, new Strategy(0, 2.0f, 0.1f)),
+        new AgentConfig(1.0f, 0.3f, 0.1f, 0.25f, new Strategy(0, 2.0f, 0.1f)),
+        new AgentConfig(0.0f, 0.3f, 0.1f, 0.25f, new Strategy(0, 0.3f, 0.1f)),
+        new AgentConfig(1.0f, 0.3f, 0.1f, 0.25f, new Strategy(0, 0.3f, 0.1f)),
+        new AgentConfig(0.0f, 0.3f, 0.1f, 0.25f, new Strategy(0, 0.3f, 0.1f)),
+        new AgentConfig(1.0f, 0.3f, 0.1f, 0.25f, new Strategy(0, 0.3f, 0.1f)),
     };
 
     static AgentConfig[] buyerConfigs = {
-        new AgentConfig(0.0f, 0.3f, 0.1f, 0.4f, new Strategy (0, 0.0f, 0.1f)),
-        new AgentConfig(0.0f, 0.3f, 0.1f, 0.4f, new Strategy (0, 0.0f, 0.1f)),
-        new AgentConfig(1.0f, 0.3f, 0.1f, 0.4f, new Strategy (0, 0.0f, 0.1f)),
-        new AgentConfig(1.0f, 0.3f, 0.1f, 0.4f, new Strategy (0, 0.0f, 0.1f)),
-        new AgentConfig(0.0f, 0.3f, 0.1f, 0.4f, new Strategy (0, 0.3f, 0.1f)),
-        new AgentConfig(0.0f, 0.3f, 0.1f, 0.4f, new Strategy (0, 0.3f, 0.1f)),
-        new AgentConfig(1.0f, 0.3f, 0.1f, 0.4f, new Strategy (0, 0.3f, 0.1f)),
-        new AgentConfig(1.0f, 0.3f, 0.1f, 0.4f, new Strategy (0, 0.3f, 0.1f)),
-        new AgentConfig(0.0f, 0.3f, 0.1f, 0.4f, new Strategy (0, 2.0f, 0.1f)),
-        new AgentConfig(0.0f, 0.3f, 0.1f, 0.4f, new Strategy (0, 2.0f, 0.1f)),
-        new AgentConfig(1.0f, 0.3f, 0.1f, 0.4f, new Strategy (0, 2.0f, 0.1f)),
-        new AgentConfig(1.0f, 0.3f, 0.1f, 0.4f, new Strategy (0, 2.0f, 0.1f)),
-        new AgentConfig(0.0f, 0.3f, 0.1f, 0.4f, new Strategy (0, 2.0f, 0.1f)),
-        new AgentConfig(0.0f, 0.3f, 0.1f, 0.4f, new Strategy (0, 2.0f, 0.1f)),
-        new AgentConfig(1.0f, 0.3f, 0.1f, 0.4f, new Strategy (0, 2.0f, 0.1f)),
-        new AgentConfig(1.0f, 0.3f, 0.1f, 0.4f, new Strategy (0, 2.0f, 0.1f)),
-        new AgentConfig(0.0f, 0.3f, 0.1f, 0.4f, new Strategy (0, 0.3f, 0.1f)),
-        new AgentConfig(0.0f, 0.3f, 0.1f, 0.4f, new Strategy (0, 0.3f, 0.1f)),
-        new AgentConfig(1.0f, 0.3f, 0.1f, 0.4f, new Strategy (0, 0.3f, 0.1f)),
-        new AgentConfig(1.0f, 0.3f, 0.1f, 0.4f, new Strategy (0, 0.3f, 0.1f)),
+        new AgentConfig(0.0f, 0.3f, 0.1f, 0.25f, new Strategy (0, 0.0f, 0.1f)),
+        new AgentConfig(0.0f, 0.3f, 0.1f, 0.25f, new Strategy (0, 0.0f, 0.1f)),
+        new AgentConfig(1.0f, 0.3f, 0.1f, 0.25f, new Strategy (0, 0.0f, 0.1f)),
+        new AgentConfig(1.0f, 0.3f, 0.1f, 0.25f, new Strategy (0, 0.0f, 0.1f)),
+        new AgentConfig(0.0f, 0.3f, 0.1f, 0.25f, new Strategy (0, 0.3f, 0.1f)),
+        new AgentConfig(0.0f, 0.3f, 0.1f, 0.25f, new Strategy (0, 0.3f, 0.1f)),
+        new AgentConfig(1.0f, 0.3f, 0.1f, 0.25f, new Strategy (0, 0.3f, 0.1f)),
+        new AgentConfig(1.0f, 0.3f, 0.1f, 0.25f, new Strategy (0, 0.3f, 0.1f)),
+        new AgentConfig(0.0f, 0.3f, 0.1f, 0.25f, new Strategy (0, 2.0f, 0.1f)),
+        new AgentConfig(0.0f, 0.3f, 0.1f, 0.25f, new Strategy (0, 2.0f, 0.1f)),
+        new AgentConfig(1.0f, 0.3f, 0.1f, 0.25f, new Strategy (0, 2.0f, 0.1f)),
+        new AgentConfig(1.0f, 0.3f, 0.1f, 0.25f, new Strategy (0, 2.0f, 0.1f)),
+        new AgentConfig(0.0f, 0.3f, 0.1f, 0.25f, new Strategy (0, 2.0f, 0.1f)),
+        new AgentConfig(0.0f, 0.3f, 0.1f, 0.25f, new Strategy (0, 2.0f, 0.1f)),
+        new AgentConfig(1.0f, 0.3f, 0.1f, 0.25f, new Strategy (0, 2.0f, 0.1f)),
+        new AgentConfig(1.0f, 0.3f, 0.1f, 0.25f, new Strategy (0, 2.0f, 0.1f)),
+        new AgentConfig(0.0f, 0.3f, 0.1f, 0.25f, new Strategy (0, 0.3f, 0.1f)),
+        new AgentConfig(0.0f, 0.3f, 0.1f, 0.25f, new Strategy (0, 0.3f, 0.1f)),
+        new AgentConfig(1.0f, 0.3f, 0.1f, 0.25f, new Strategy (0, 0.3f, 0.1f)),
+        new AgentConfig(1.0f, 0.3f, 0.1f, 0.25f, new Strategy (0, 0.3f, 0.1f)),
     };
 
     public static double randomFloatInRange(float min, float max) {
@@ -77,20 +77,21 @@ public class App {
                 
                 sellerConfig = sellerConfigs[j];
                 buyerConfig = buyerConfigs[j];
-                int maxRequests = rand.nextInt((maxTrades - minTrades) + 1) + minTrades;
+                int maxRequests = rand.nextInt((maxTrades - minTrades) + 1) + minTrades;;
                 sellerConfig.strategy.numRequests = maxRequests;
                 buyerConfig.strategy.numRequests = maxRequests;
+                //sellerConfig.necessity = (float)randomFloatInRange(0.1f, 0.9f);
+                //buyerConfig.necessity = (float)randomFloatInRange(0.1f, 0.9f);
 
                 //System.out.println("TRADE " + (i+1));
                 TradeResult tradeResult = tradeManager.startTrade(maxRequests, buyerConfig, sellerConfig);
                 trades.add(tradeResult);
                 //System.out.println();
 
-                String productValue = String.valueOf(tradeResult.productValue).replace(".", ",");
                 String profitAmount = String.valueOf(tradeResult.sellerProfitAmount).replace(".", ",");
                 String profitMargin = String.valueOf(tradeResult.sellerProfitMargin).replace(".", ",");
 
-                out.append(productValue + ";" + tradeResult.accepted + ";" + profitAmount + ";" + profitMargin + "\n");
+                out.append(tradeResult.accepted + ";" + profitAmount + ";" + profitMargin + "\n");
             }
             out.close();
         }
