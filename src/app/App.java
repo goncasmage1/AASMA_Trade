@@ -80,8 +80,8 @@ public class App {
                 int maxRequests = rand.nextInt((maxTrades - minTrades) + 1) + minTrades;;
                 sellerConfig.strategy.numRequests = maxRequests;
                 buyerConfig.strategy.numRequests = maxRequests;
-                //sellerConfig.necessity = (float)randomFloatInRange(0.1f, 0.9f);
-                //buyerConfig.necessity = (float)randomFloatInRange(0.1f, 0.9f);
+                sellerConfig.necessity = (float)randomFloatInRange(0.3f, 0.8f);
+                buyerConfig.necessity = (float)randomFloatInRange(0.3f, 0.8f);
 
                 //System.out.println("TRADE " + (i+1));
                 TradeResult tradeResult = tradeManager.startTrade(maxRequests, buyerConfig, sellerConfig);
