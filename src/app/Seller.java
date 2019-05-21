@@ -68,8 +68,7 @@ public class Seller extends Agent {
 	}
 
 	private Request buildInitialRequest() {
-		Product product = manager.products[manager.rand.nextInt(manager.products.length)];
-		//Product product = manager.products[1];
+		Product product = manager.products[1];
 		perceivedValue = product.getValue() * (1.0f + config.profitMargin) * (1.0f + config.offerInflation);
 		ArrayList<String> messages = new ArrayList<String>();
 		if (manager.rand.nextFloat() < config.riskWillingness) {
