@@ -1,5 +1,7 @@
 # AASMA_Trade
 
+In order to run the program, simply open the project in Eclipse, IntelliJ, or another Java-capable IDE and run the project.
+
 The goal of this project is to simulate a situation where 2 agents are trying to negotiate a product with the possibility of deception.
 
 Agents have several properties including:
@@ -21,5 +23,3 @@ chosen strategy.
 
 When you run the program, several trades with different parameters will be executed, and their results will be saved in .csv files.
 You can then open TradeResults.xlsx, update all the tables (by going to Data -> Connections) and check the results of each group of simulations.
-
-In order to run the program, simply open the project in Eclipse, IntelliJ, or another Java-capable IDE.

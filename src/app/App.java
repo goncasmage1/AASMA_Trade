@@ -77,7 +77,7 @@ public class App {
                 
                 sellerConfig = sellerConfigs[j];
                 buyerConfig = buyerConfigs[j];
-                int maxRequests = rand.nextInt((maxTrades - minTrades) + 1) + minTrades;;
+                int maxRequests = rand.nextInt((maxTrades - minTrades) + 1) + minTrades;
                 sellerConfig.strategy.numRequests = maxRequests;
                 buyerConfig.strategy.numRequests = maxRequests;
                 //sellerConfig.necessity = (float)randomFloatInRange(0.3f, 0.8f);
