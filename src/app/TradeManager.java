@@ -54,38 +54,37 @@ public class TradeManager {
 
 		Request nextRequest = null;
 
-		//System.out.println("Max: " + maxRequests);
+		System.out.println("Max: " + maxRequests);
 
 		while(true) {
 			nextRequest = seller.giveResponse(nextRequest);
 			requestCount++;
-			//if (nextRequest.messages != null) for (int i = 0; i < nextRequest.messages.size(); i++) System.out.println(nextRequest.messages.get(i));
+			if (nextRequest.messages != null) for (int i = 0; i < nextRequest.messages.size(); i++) System.out.println(nextRequest.messages.get(i));
 			nextRequest.accept(this);
 			
 			if (nextRequest instanceof AcceptTrade ||
 				nextRequest instanceof GiveUpTrade ||
 				requestCount >= maxRequests) break;
 
-			//System.out.println("Seller offer: " + nextRequest.value + "$");
+			System.out.println("Seller offer: " + nextRequest.value + "$");
 			lastOfferValue = nextRequest.value;
 			
 			nextRequest = buyer.giveResponse(nextRequest);
 			requestCount++;
-			//if (nextRequest.messages != null) for (int i = 0; i < nextRequest.messages.size(); i++) System.out.println(nextRequest.messages.get(i));
+			if (nextRequest.messages != null) for (int i = 0; i < nextRequest.messages.size(); i++) System.out.println(nextRequest.messages.get(i));
 			nextRequest.accept(this);
 			
 			if (nextRequest instanceof AcceptTrade ||
 				nextRequest instanceof GiveUpTrade ||
 				requestCount >= maxRequests) break;
 				
-			//System.out.println("Buyer offer: " + nextRequest.value + "$");
+			System.out.println("Buyer offer: " + nextRequest.value + "$");
 			lastOfferValue = nextRequest.value;
 		}
 
-		//System.out.println();
-		//if (nextRequest instanceof AcceptTrade) System.out.println("Trade accepted");
-		//else if (nextRequest instanceof GiveUpTrade) System.out.println("Trade cancelled");
-		//System.out.println(nextRequest.product.name + ": " + nextRequest.product.getValue() + "$");
+		if (nextRequest instanceof AcceptTrade) System.out.print("ACCEPTED: ");
+		else if (nextRequest instanceof GiveUpTrade) System.out.print("CANCELLED: ");
+		System.out.println(nextRequest.product.name + ": " + nextRequest.product.getValue() + "$");
 
 		return new TradeResult(nextRequest.product.getValue(), lastOfferValue, nextRequest instanceof AcceptTrade);
 	}

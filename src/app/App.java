@@ -90,9 +90,9 @@ public class App {
                 String profitMargin = String.valueOf(tradeResult.sellerProfitMargin).replace(".", ",");
 
                 out.append(tradeResult.accepted + ";" + profitAmount + ";" + profitMargin + "\n");
+                System.out.println();
             }
             out.close();
         }
-        
     }
 }
